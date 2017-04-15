@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>machool</title>
+		<style>
+			.shipping-form {
+				padding: 10px;
+				font-family: "Courier New";
+			}
+
+			#submit-btn {
+				width: 100%;
+				height: 40px;
+			}
+		</style>
+	</head>
+	<body style="background: black" >
+		<form action="">
+			<div id="sender" class="shipping-form" style="background: lightblue">
+				<b style="font-size:28px">Sender:</b>
+				<br>
+				Name:
+				<br>
+				<input type="text" name="sender-name" value="">
+				<br>
+				Company:
+				<br>
+				<input type="text" name="sender-company" value="">
+				<br>
+				Contact Phone:
+				<br>
+				<input type="text" name="sender-contact-phone" value="">
+				<br>
+				Address Line 1:
+				<br>
+				<input type="text" name="sender-address-line-1" value="">
+				<br>
+				City:
+				<br>
+				<input type="text" name="sender-city" value="">
+				<br>
+				Prov/State:
+				<br>
+				<select name="sender-prov-state">
+					<option value="AB">Alberta</option>
+					<option value="BC">British Columbia</option>
+					<option value="MB">Manitoba</option>
+					<option value="NB">New Brunswick</option>
+					<option value="NL">Newfoundland and Labrador</option>
+					<option value="NS">Nova Scotia</option>
+					<option value="NT">Northwest Territories</option>
+					<option value="NU">Nunavut</option>
+					<option value="ON">Ontario</option>
+					<option value="PE">Prince Edward Island</option>
+					<option value="QC">Quebec</option>
+					<option value="SK">Saskatchewan</option>
+					<option value="YT">Yukon</option>
+				</select>
+				<br>
+				Postal/Zip Code:
+				<br>
+				<input type="text" name="sender-postal-zip-code" value="">
+				<br>
+				Country:
+				<br>
+				<select name="sender-country-code">
+					<option value="">Select Country</option>
+					<option value="CA">Canada</option>
+					<option value="US">United States</option>
+				</select>
+				<br>
+				<br>
+			</div>
+
+
+			<div id="destination" class="shipping-form" style="background: lightgreen">
+				<b style="font-size:28px">Destination:</b>
+				<br>			
+				Name:
+				<br>
+				<input type="text" name="destination-name" value="">
+				<br>
+				Company:
+				<br>
+				<input type="text" name="destination-company" value="">
+				<br>
+				Contact Phone:
+				<br>
+				<input type="text" name="destination-contact-phone" value="">
+				<br>
+				Address Line 1:
+				<br>
+				<input type="text" name="destination-address-line-1" value="">
+				<br>
+				City:
+				<br>
+				<input type="text" name="destination-city" value="">
+				<br>
+				Prov/State:
+				<br>
+				<select name="destination-prov-state">
+					<option value="AB">Alberta</option>
+					<option value="BC">British Columbia</option>
+					<option value="MB">Manitoba</option>
+					<option value="NB">New Brunswick</option>
+					<option value="NL">Newfoundland and Labrador</option>
+					<option value="NS">Nova Scotia</option>
+					<option value="NT">Northwest Territories</option>
+					<option value="NU">Nunavut</option>
+					<option value="ON">Ontario</option>
+					<option value="PE">Prince Edward Island</option>
+					<option value="QC">Quebec</option>
+					<option value="SK">Saskatchewan</option>
+					<option value="YT">Yukon</option>
+				</select>
+				<br>
+
+				Postal/Zip Code:
+				<br>
+				<input type="text" name="destination-postal-zip-code" value="">
+				<br>
+				Country:
+				<br>
+				<select name="destination-country-code">
+					<option value="">Select Country</option>
+					<option value="CA">Canada</option>
+					<option value="US">United States</option>
+				</select>
+				<br>
+				<br>
+			</div>
+
+
+			<div id="parcel-characteristics" class="shipping-form" style="background: lightpink">
+				<b style="font-size:28px">Parcel Characteristics:</b>
+				<br>	
+				Weight:
+				<br>
+				<input type="test" name="weight" value="">
+				<br>
+				Length:
+				<br>
+				<input type="test" name="length" value="">
+				<br>
+				Width:
+				<br>
+				<input type="test" name="width" value="">
+				<br>
+				Height:
+				<br>
+				<input type="test" name="height" value="">
+				<br>
+			</div>
+
+
+			<div id="preferences" class="shipping-form" style="background: lightyellow">
+				<br>
+				Show Packing Instructions:
+				<input type="checkbox" name="show-packing-instructions" value="">
+				<p style="font-size:12px; color: darkred">Indicates whether packing instructions are to be rendered on the label or not.</p>
+				<br>
+				Shipping Option:
+				<br>
+			</div>
+			<div id="service-code" class="shipping-form" style="background: lightyellow">
+				<select name="service-code">
+					<option value="DOM.RP">Regular Parcel</option>
+					<option value="DOM.EP">Expedited Parcel</option>
+					<option value="DOM.XP">Xpresspost</option>
+					<option value="DOM.PC">Priority</option>
+				</select>
+				<br>
+			</div>
+
+
+			<br>
+			<input id="submit-btn" type="submit" value="Submit">
+		</form>
+		<script language="javascript">		
+			function populateCountries(countryElementId) {
+				var countryElement = document.getElementById(countryElementId);
+				countryElement.length = 0;
+				countryElement.options[0] = new Option('Select Country', '-1');
+				countryElement.selectedIndex = 0;
+			}
+		</script>
+	</body>
+</html>

@@ -2,9 +2,9 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
+router.get('/', function (req, res, next) {
   
-  return res.status(200).json('Welcome home, Machoolian')
+  res.status(200).sendFile(__dirname + '/views/index.html')
 
 });
 
