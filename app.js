@@ -10,7 +10,7 @@ const routes = require('./app/routes/');
 const PORT = process.env.PORT || 8080;
 const SERVER_URL = process.env.SERVER_URL || 'http://localhost';
 
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 routes.set(app);
 

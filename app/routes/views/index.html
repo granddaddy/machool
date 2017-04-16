@@ -13,62 +13,51 @@
 				width: 100%;
 				height: 40px;
 			}
+
+			.warning {
+				color: red;
+				margin: 0px;
+			}
 		</style>
 	</head>
-	<body style="background: black" >
-		<form action="">
+	<body style="background: black">
+		<!-- action="http://127.0.0.1:8080/sendInformation"  method="post" -->
+		<form id="information-form" onsubmit="return validateInformationForm()">
 			<div id="sender" class="shipping-form" style="background: lightblue">
 				<b style="font-size:28px">Sender:</b>
 				<br>
 				Name:
 				<br>
-				<input type="text" name="sender-name" value="">
+				<input type="text" name="sender-name" value="" maxlength="44">
 				<br>
 				Company:
 				<br>
-				<input type="text" name="sender-company" value="">
+				<input type="text" name="sender-company" value="" maxlength="44">
 				<br>
 				Contact Phone:
 				<br>
-				<input type="text" name="sender-contact-phone" value="">
+				<input type="number" name="sender-contact-phone" value="" maxlength="25">
 				<br>
 				Address Line 1:
 				<br>
-				<input type="text" name="sender-address-line-1" value="">
+				<input type="text" name="sender-address-line-1" value="" maxlength="44">
+				<br>
+				Address Line 2:
+				<br>
+				<input type="text" name="sender-address-line-2" value="" maxlength="44">
 				<br>
 				City:
 				<br>
-				<input type="text" name="sender-city" value="">
+				<input type="text" name="sender-city" value="" maxlength="40">
 				<br>
 				Prov/State:
 				<br>
-				<select name="sender-prov-state">
-					<option value="AB">Alberta</option>
-					<option value="BC">British Columbia</option>
-					<option value="MB">Manitoba</option>
-					<option value="NB">New Brunswick</option>
-					<option value="NL">Newfoundland and Labrador</option>
-					<option value="NS">Nova Scotia</option>
-					<option value="NT">Northwest Territories</option>
-					<option value="NU">Nunavut</option>
-					<option value="ON">Ontario</option>
-					<option value="PE">Prince Edward Island</option>
-					<option value="QC">Quebec</option>
-					<option value="SK">Saskatchewan</option>
-					<option value="YT">Yukon</option>
+				<select name="sender-prov-state" id="sender-prov-state">
 				</select>
 				<br>
 				Postal/Zip Code:
 				<br>
-				<input type="text" name="sender-postal-zip-code" value="">
-				<br>
-				Country:
-				<br>
-				<select name="sender-country-code">
-					<option value="">Select Country</option>
-					<option value="CA">Canada</option>
-					<option value="US">United States</option>
-				</select>
+				<input type="text" name="sender-postal-zip-code" value="" maxlength="6">
 				<br>
 				<br>
 			</div>
@@ -87,46 +76,33 @@
 				<br>
 				Contact Phone:
 				<br>
-				<input type="text" name="destination-contact-phone" value="">
+				<input type="number" name="destination-contact-phone" value="">
 				<br>
 				Address Line 1:
 				<br>
 				<input type="text" name="destination-address-line-1" value="">
 				<br>
+				Address Line 2:
+				<br>
+				<input type="text" name="destination-address-line-2" value="">
+				<br>
 				City:
 				<br>
 				<input type="text" name="destination-city" value="">
 				<br>
-				Prov/State:
+				Country:
 				<br>
-				<select name="destination-prov-state">
-					<option value="AB">Alberta</option>
-					<option value="BC">British Columbia</option>
-					<option value="MB">Manitoba</option>
-					<option value="NB">New Brunswick</option>
-					<option value="NL">Newfoundland and Labrador</option>
-					<option value="NS">Nova Scotia</option>
-					<option value="NT">Northwest Territories</option>
-					<option value="NU">Nunavut</option>
-					<option value="ON">Ontario</option>
-					<option value="PE">Prince Edward Island</option>
-					<option value="QC">Quebec</option>
-					<option value="SK">Saskatchewan</option>
-					<option value="YT">Yukon</option>
+				<select name="destination-country-code" id="destination-country-code">
 				</select>
 				<br>
-
+				Prov/State:
+				<br>
+				<select name="destination-prov-state" id="destination-prov-state">
+				</select>
+				<br>
 				Postal/Zip Code:
 				<br>
 				<input type="text" name="destination-postal-zip-code" value="">
-				<br>
-				Country:
-				<br>
-				<select name="destination-country-code">
-					<option value="">Select Country</option>
-					<option value="CA">Canada</option>
-					<option value="US">United States</option>
-				</select>
 				<br>
 				<br>
 			</div>
@@ -137,19 +113,19 @@
 				<br>	
 				Weight:
 				<br>
-				<input type="test" name="weight" value="">
+				<input type="number" name="weight" value=""> kg
 				<br>
 				Length:
 				<br>
-				<input type="test" name="length" value="">
+				<input type="number" name="length" value=""> cm
 				<br>
 				Width:
 				<br>
-				<input type="test" name="width" value="">
+				<input type="number" name="width" value=""> cm
 				<br>
 				Height:
 				<br>
-				<input type="test" name="height" value="">
+				<input type="number" name="height" value=""> cm
 				<br>
 			</div>
 
@@ -157,18 +133,14 @@
 			<div id="preferences" class="shipping-form" style="background: lightyellow">
 				<br>
 				Show Packing Instructions:
-				<input type="checkbox" name="show-packing-instructions" value="">
+				<input type="checkbox" name="show-packing-instructions" value="false">
 				<p style="font-size:12px; color: darkred">Indicates whether packing instructions are to be rendered on the label or not.</p>
 				<br>
 				Shipping Option:
 				<br>
 			</div>
-			<div id="service-code" class="shipping-form" style="background: lightyellow">
-				<select name="service-code">
-					<option value="DOM.RP">Regular Parcel</option>
-					<option value="DOM.EP">Expedited Parcel</option>
-					<option value="DOM.XP">Xpresspost</option>
-					<option value="DOM.PC">Priority</option>
+			<div class="shipping-form" style="background: lightyellow">
+				<select name="service-code" id="service" >
 				</select>
 				<br>
 			</div>
@@ -177,13 +149,150 @@
 			<br>
 			<input id="submit-btn" type="submit" value="Submit">
 		</form>
-		<script language="javascript">		
-			function populateCountries(countryElementId) {
+		<script language="javascript">
+			function checkFormRequirement(form, inputName, warningMessage) {
+				if (form[inputName].value.trim() == "") {
+
+					var warning = document.createElement("span");
+					warning.setAttribute("class", "warning");
+					warning.innerText = warningMessage;
+
+					var element = form[inputName];
+					var par = element.parentElement;
+
+					// insertAfter
+					par.insertBefore(warning, element.nextSibling);
+
+					return false;
+
+				}
+
+					return true;
+
+			}
+
+			function validateInformationForm() {
+				var form = document.getElementById("information-form");
+
+				var requiredWarningMessage = "*required";
+
+				var senderRequiredElements = new Array("sender-company", "sender-contact-phone", "sender-address-line-1", "sender-city", "sender-prov-state", "sender-postal-zip-code")
+
+				var destinationRequiredElements = new Array("destination-address-line-1", "destination-city", "destination-prov-state", "destination-postal-zip-code")
+
+				var canContinue = true;
+
+				for (let i = 0; i < senderRequiredElements.length; i++) {
+					if (!checkFormRequirement(form, senderRequiredElements[i], requiredWarningMessage)) {
+						canContinue = false;
+					}
+				}
+
+				for (let i = 0; i < destinationRequiredElements.length; i++) {
+					if (!checkFormRequirement(form, destinationRequiredElements[i], requiredWarningMessage)) {
+						canContinue = false;
+					}
+				}
+
+				var destinationOneRequiredElements = new Array("destination-name", "destination-company");
+
+				var isOneTrue = false;
+
+				for (let i = 0; i < destinationOneRequiredElements.length; i++) {
+					if (checkFormRequirement(form, destinationOneRequiredElements[i], requiredWarningMessage)) {
+						isOneTrue = true;
+					}
+				}
+
+				if (!isOneTrue) {
+					canContinue = false;
+				}
+
+				return canContinue;
+			}
+		</script>
+		<script language="javascript">	
+			var c_a = new Array("Canada", "United States");
+			var cc_a = new Array("CA", "US");
+
+			var s_a = new Array();
+			s_a[1] = new Array("Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland and Labrador", "Northwest Territories", "Nova Scotia", "Nunavut", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan", "Yukon");
+			s_a[2] = new Array("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming");
+
+			var sc_a = new Array();
+			sc_a[1] = new Array("AB", "BC", "MB", "NB", "NL", "NT", "NS", "NU", "ON", "PE", "QC", "SK", "YT");
+			sc_a[2] = new Array("AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY");
+
+			var serv_a = new Array();
+			serv_a[1] = new Array("Domestic Regular Parcel", "Domestic Expedited Parcel", "Domestic Xpresspost", "Domestic Priority");
+			serv_a[2] = new Array("Priority Worldwide Envelope USA", "Priority Worldwide pak USA", "Priority Worldwide Parcel USA", "Xpresspost USA", "Expedited Parcel USA", "Small Packet USA Air", "Tracked Packet – USA");
+
+			var serv_c_a = new Array();
+			serv_c_a[1] = new Array("DOM.RP", "DOM.EP", "DOM.XP", "DOM.PC");
+			serv_c_a[2] = new Array("USA.PW.ENV", "USA.PW.PAK", "USA.PW.PARCEL", "USA.XP", "USA.EP", "USA.SP.AIR", "USA.TP");
+
+
+			function populateServiceCodes(countryElementId, serviceId) {
+
+				var selectedCountryIndex = document.getElementById(countryElementId).selectedIndex;
+
+				var serviceElement = document.getElementById(serviceId);
+
+				serviceElement.length = 0; // Fixed by Julian Woods
+				serviceElement.options[0] = new Option("Select Shipping Service", "");
+				serviceElement.selectedIndex = 0;
+
+				var service_arr = serv_a[selectedCountryIndex];
+				var service_code_arr = serv_c_a[selectedCountryIndex];
+
+
+				for (var i = 0; i < service_arr.length; i++) {
+					serviceElement.options[serviceElement.length] = new Option(service_arr[i], service_code_arr[i]);
+				}
+			}
+
+			function populateStates(countryElementId, stateElementId) {
+
+				var selectedCountryIndex = document.getElementById(countryElementId).selectedIndex;
+
+				populateStatesHelper();
+			}
+
+			function populateStatesHelper(selectedCountryIndex, stateElementId) {
+
+				var stateElement = document.getElementById(stateElementId);
+
+				stateElement.length = 0; // Fixed by Julian Woods
+				stateElement.options[0] = new Option("Select State", "");
+				stateElement.selectedIndex = 0;
+
+				var state_arr = s_a[selectedCountryIndex];
+				var state_code_arr = sc_a[selectedCountryIndex];
+
+				for (var i = 0; i < state_arr.length; i++) {
+					stateElement.options[stateElement.length] = new Option(state_arr[i], state_code_arr[i]);
+				}
+			}
+
+			function populateCountries(countryElementId, stateElementId, serviceId) {
 				var countryElement = document.getElementById(countryElementId);
 				countryElement.length = 0;
-				countryElement.options[0] = new Option('Select Country', '-1');
+				countryElement.options[0] = new Option("Select Country", "-1");
 				countryElement.selectedIndex = 0;
+
+
+				for (var i = 0; i < c_a.length; i++) {
+					countryElement.options[countryElement.length] = new Option(c_a[i], cc_a[i]);
+				}
+
+				countryElement.onchange = function () {
+					populateStates(countryElementId, stateElementId);
+					populateServiceCodes(countryElementId, serviceId);
+				};
 			}
+
+			populateCountries("destination-country-code", "destination-prov-state", "service");
+			populateStatesHelper(1, "sender-prov-state");
 		</script>
 	</body>
 </html>
