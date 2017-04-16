@@ -14,7 +14,7 @@
 				height: 40px;
 			}
 
-			.warning {
+			.required-warning {
 				color: red;
 				margin: 0px;
 			}
@@ -140,7 +140,7 @@
 				<br>
 			</div>
 			<div class="shipping-form" style="background: lightyellow">
-				<select name="service-code" id="service" >
+				<select name="service-code" id="service">
 				</select>
 				<br>
 			</div>
@@ -154,7 +154,7 @@
 				if (form[inputName].value.trim() == "") {
 
 					var warning = document.createElement("span");
-					warning.setAttribute("class", "warning");
+					warning.setAttribute("class", "required-warning");
 					warning.innerText = warningMessage;
 
 					var element = form[inputName];
@@ -171,43 +171,109 @@
 
 			}
 
-			function validateInformationForm() {
-				var form = document.getElementById("information-form");
+			function createOnlyOneFilledString(form, oneRequiredArray, removeString) {
+				var ss = "";
+				for (let i = 0; i < oneRequiredArray.length; i++) {
+					var cleanFieldName = oneRequiredArray[i].replace(removeString, "");
+					ss = ss + cleanFieldName;
+					if (i < oneRequiredArray.length - 1) {
+						ss = ss + " or ";
+					}
+				}
 
-				var requiredWarningMessage = "*required";
+				for (let i = 0; i < oneRequiredArray.length; i++) {
+					if(!checkFormRequirement(form, oneRequiredArray[i], "*" + ss +" required")) {
+						break;
+					}
+				}
 
-				var senderRequiredElements = new Array("sender-company", "sender-contact-phone", "sender-address-line-1", "sender-city", "sender-prov-state", "sender-postal-zip-code")
+				return ss;
+			}
 
-				var destinationRequiredElements = new Array("destination-address-line-1", "destination-city", "destination-prov-state", "destination-postal-zip-code")
 
+			function validateArrayForFormOnlyOneFilled(form, oneRequiredArray) {
 				var canContinue = true;
-
-				for (let i = 0; i < senderRequiredElements.length; i++) {
-					if (!checkFormRequirement(form, senderRequiredElements[i], requiredWarningMessage)) {
-						canContinue = false;
-					}
-				}
-
-				for (let i = 0; i < destinationRequiredElements.length; i++) {
-					if (!checkFormRequirement(form, destinationRequiredElements[i], requiredWarningMessage)) {
-						canContinue = false;
-					}
-				}
-
-				var destinationOneRequiredElements = new Array("destination-name", "destination-company");
-
 				var isOneTrue = false;
 
-				for (let i = 0; i < destinationOneRequiredElements.length; i++) {
-					if (checkFormRequirement(form, destinationOneRequiredElements[i], requiredWarningMessage)) {
+				for (let i = 0; i < oneRequiredArray.length; i++) {
+					if (checkFormRequirement(form, oneRequiredArray[i], "")) {
 						isOneTrue = true;
 					}
 				}
 
 				if (!isOneTrue) {
 					canContinue = false;
+					createOnlyOneFilledString(form, oneRequiredArray, "destination-")
 				}
 
+				return canContinue;
+			}
+
+			function validateArrayForForm(form, requiredArray, requiredWarningMessage) {
+				var canContinue = true;
+
+				for (let i = 0; i < requiredArray.length; i++) {
+					if (!checkFormRequirement(form, requiredArray[i], requiredWarningMessage)) {
+						canContinue = false;
+					}
+				}
+
+				return canContinue;
+
+			}
+
+			var hasValidatedBefore = false;
+			function validateInformationForm() {
+
+				if(hasValidatedBefore) {
+
+					var warnings = document.getElementsByClassName("required-warning");	
+					
+					while (warnings.length > 0) {
+						warnings[0].remove();	
+					}
+
+				}
+
+				var form = document.getElementById("information-form");
+
+				var requiredWarningMessage = "*required";
+
+				var senderRequiredElements = new Array("sender-company", "sender-contact-phone", "sender-address-line-1", "sender-city", "sender-prov-state", "sender-postal-zip-code")
+
+				var destinationRequiredElements = new Array("destination-address-line-1", "destination-city", "destination-country-code", "destination-prov-state", "destination-postal-zip-code")
+
+
+				var destinationOneRequiredElements = new Array("destination-name", "destination-company");
+
+
+				var parcelCharacteristicsRequiredElements = new Array("weight", "length", "width", "height")
+
+				var canContinue = true;
+
+				// sender
+
+				if(!validateArrayForForm(form, senderRequiredElements, requiredWarningMessage)) {
+					canContinue = false;
+				}
+
+				// destination
+
+				if(!validateArrayForForm(form, destinationRequiredElements, requiredWarningMessage)) {
+					canContinue = false;
+				}
+
+				if(!validateArrayForFormOnlyOneFilled(form, destinationOneRequiredElements)) {
+					canContinue = false;
+				}
+
+				// parcel
+
+				if(!validateArrayForForm(form, parcelCharacteristicsRequiredElements, requiredWarningMessage)) {
+					canContinue = false;
+				}
+
+				hasValidatedBefore = true;
 				return canContinue;
 			}
 		</script>
@@ -255,7 +321,7 @@
 
 				var selectedCountryIndex = document.getElementById(countryElementId).selectedIndex;
 
-				populateStatesHelper();
+				populateStatesHelper(selectedCountryIndex, stateElementId)
 			}
 
 			function populateStatesHelper(selectedCountryIndex, stateElementId) {
@@ -277,7 +343,7 @@
 			function populateCountries(countryElementId, stateElementId, serviceId) {
 				var countryElement = document.getElementById(countryElementId);
 				countryElement.length = 0;
-				countryElement.options[0] = new Option("Select Country", "-1");
+				countryElement.options[0] = new Option("Select Country", "");
 				countryElement.selectedIndex = 0;
 
 
