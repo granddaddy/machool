@@ -13,7 +13,11 @@
   },
   "dependencies": {
     "@usend/canadapost": "github:machool/-usend-canadapost#2377eca",
-    "express": "^4.15.2"
+    "express": "^4.15.2",
+    "js2xmlparser": "^3.0.0",
+    "lodash": "^4.17.4",
+    "request": "^2.81.0",
+    "xml2js": "^0.4.17"
   },
   "devDependencies": {
     "body-parser": "^1.17.1",

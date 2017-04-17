@@ -21,43 +21,42 @@
 		</style>
 	</head>
 	<body style="background: black">
-		<!-- action="http://127.0.0.1:8080/sendInformation"  method="post" -->
-		<form id="information-form" onsubmit="return validateInformationForm()">
+		<form id="information-form">
 			<div id="sender" class="shipping-form" style="background: lightblue">
 				<b style="font-size:28px">Sender:</b>
 				<br>
 				Name:
 				<br>
-				<input type="text" name="sender-name" value="" maxlength="44">
+				<input type="text" name="delivery-spec[sender][name]" value="" maxlength="44">
 				<br>
 				Company:
 				<br>
-				<input type="text" name="sender-company" value="" maxlength="44">
+				<input type="text" name="delivery-spec[sender][company]" value="" maxlength="44">
 				<br>
 				Contact Phone:
 				<br>
-				<input type="number" name="sender-contact-phone" value="" maxlength="25">
+				<input type="number" name="delivery-spec[sender][contact-phone]" value="" maxlength="25">
 				<br>
 				Address Line 1:
 				<br>
-				<input type="text" name="sender-address-line-1" value="" maxlength="44">
+				<input type="text" name="delivery-spec[sender][address-details][address-line-1]" value="" maxlength="44">
 				<br>
 				Address Line 2:
 				<br>
-				<input type="text" name="sender-address-line-2" value="" maxlength="44">
+				<input type="text" name="delivery-spec[sender][address-details][address-line-2]" value="" maxlength="44">
 				<br>
 				City:
 				<br>
-				<input type="text" name="sender-city" value="" maxlength="40">
+				<input type="text" name="delivery-spec[sender][address-details][city]" value="" maxlength="40">
 				<br>
 				Prov/State:
 				<br>
-				<select name="sender-prov-state" id="sender-prov-state">
+				<select name="delivery-spec[sender][address-details][prov-state]" id="delivery-spec[sender][address-details][prov-state]">
 				</select>
 				<br>
 				Postal/Zip Code:
 				<br>
-				<input type="text" name="sender-postal-zip-code" value="" maxlength="6">
+				<input type="text" name="delivery-spec[sender][address-details][postal-zip-code]" value="" maxlength="6">
 				<br>
 				<br>
 			</div>
@@ -68,41 +67,41 @@
 				<br>			
 				Name:
 				<br>
-				<input type="text" name="destination-name" value="">
+				<input type="text" name="delivery-spec[destination][name]" value="">
 				<br>
 				Company:
 				<br>
-				<input type="text" name="destination-company" value="">
+				<input type="text" name="delivery-spec[destination][company]" value="">
 				<br>
 				Contact Phone:
 				<br>
-				<input type="number" name="destination-contact-phone" value="">
+				<input type="number" name="delivery-spec[destination][client-voice-number]" value="">
 				<br>
 				Address Line 1:
 				<br>
-				<input type="text" name="destination-address-line-1" value="">
+				<input type="text" name="delivery-spec[destination][address-details][address-line-1]" value="">
 				<br>
 				Address Line 2:
 				<br>
-				<input type="text" name="destination-address-line-2" value="">
+				<input type="text" name="delivery-spec[destination][address-details][address-line-2]" value="">
 				<br>
 				City:
 				<br>
-				<input type="text" name="destination-city" value="">
+				<input type="text" name="delivery-spec[destination][address-details][city]" value="">
 				<br>
 				Country:
 				<br>
-				<select name="destination-country-code" id="destination-country-code">
+				<select name="delivery-spec[destination][address-details][country-code]" id="delivery-spec[destination][address-details][country-code]">
 				</select>
 				<br>
 				Prov/State:
 				<br>
-				<select name="destination-prov-state" id="destination-prov-state">
+				<select name="delivery-spec[destination][address-details][prov-state]" id="delivery-spec[destination][address-details][prov-state]">
 				</select>
 				<br>
 				Postal/Zip Code:
 				<br>
-				<input type="text" name="destination-postal-zip-code" value="">
+				<input type="text" name="delivery-spec[destination][address-details][postal-zip-code]" value="">
 				<br>
 				<br>
 			</div>
@@ -113,19 +112,19 @@
 				<br>	
 				Weight:
 				<br>
-				<input type="number" name="weight" value=""> kg
+				<input type="number" name="delivery-spec[parcel-characteristics][weight]" value=""> kg
 				<br>
 				Length:
 				<br>
-				<input type="number" name="length" value=""> cm
+				<input type="number" name="delivery-spec[parcel-characteristics][dimensions][length]" value=""> cm
 				<br>
 				Width:
 				<br>
-				<input type="number" name="width" value=""> cm
+				<input type="number" name="delivery-spec[parcel-characteristics][dimensions][width]" value=""> cm
 				<br>
 				Height:
 				<br>
-				<input type="number" name="height" value=""> cm
+				<input type="number" name="delivery-spec[parcel-characteristics][dimensions][height]" value=""> cm
 				<br>
 			</div>
 
@@ -133,14 +132,14 @@
 			<div id="preferences" class="shipping-form" style="background: lightyellow">
 				<br>
 				Show Packing Instructions:
-				<input type="checkbox" name="show-packing-instructions" value="false">
+				<input type="checkbox" name="delivery-spec[preferences][show-packing-instructions]">
 				<p style="font-size:12px; color: darkred">Indicates whether packing instructions are to be rendered on the label or not.</p>
 				<br>
 				Shipping Option:
 				<br>
 			</div>
 			<div class="shipping-form" style="background: lightyellow">
-				<select name="service-code" id="service">
+				<select name="delivery-spec[service-code]" id="service">
 				</select>
 				<br>
 			</div>
@@ -149,6 +148,8 @@
 			<br>
 			<input id="submit-btn" type="submit" value="Submit">
 		</form>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js">
+		</script>
 		<script language="javascript">
 			function checkFormRequirement(form, inputName, warningMessage) {
 				if (form[inputName].value.trim() == "") {
@@ -228,7 +229,7 @@
 				if(hasValidatedBefore) {
 
 					var warnings = document.getElementsByClassName("required-warning");	
-					
+
 					while (warnings.length > 0) {
 						warnings[0].remove();	
 					}
@@ -239,15 +240,15 @@
 
 				var requiredWarningMessage = "*required";
 
-				var senderRequiredElements = new Array("sender-company", "sender-contact-phone", "sender-address-line-1", "sender-city", "sender-prov-state", "sender-postal-zip-code")
+				var senderRequiredElements = new Array("delivery-spec[sender][company]", "delivery-spec[sender][contact-phone]", "delivery-spec[sender][address-details][address-line-1]", "delivery-spec[sender][address-details][city]", "delivery-spec[sender][address-details][prov-state]", "delivery-spec[sender][address-details][postal-zip-code]")
 
-				var destinationRequiredElements = new Array("destination-address-line-1", "destination-city", "destination-country-code", "destination-prov-state", "destination-postal-zip-code")
+				var destinationRequiredElements = new Array("delivery-spec[destination][address-details][address-line-1]", "delivery-spec[destination][address-details][city]", "delivery-spec[destination][address-details][country-code]", "delivery-spec[destination][address-details][prov-state]", "delivery-spec[destination][address-details][postal-zip-code]")
 
+				var destinationOneRequiredElements = new Array("delivery-spec[destination][name]", "delivery-spec[destination][company]");
 
-				var destinationOneRequiredElements = new Array("destination-name", "destination-company");
+				var parcelCharacteristicsRequiredElements = new Array("delivery-spec[parcel-characteristics][weight]", "delivery-spec[parcel-characteristics][dimensions][length]", "delivery-spec[parcel-characteristics][dimensions][width]", "delivery-spec[parcel-characteristics][dimensions][height]");
 
-
-				var parcelCharacteristicsRequiredElements = new Array("weight", "length", "width", "height")
+				var serviceRequiredElements = new Array("delivery-spec[service-code]");
 
 				var canContinue = true;
 
@@ -273,9 +274,41 @@
 					canContinue = false;
 				}
 
+				if(!validateArrayForForm(form, serviceRequiredElements, requiredWarningMessage)) {
+					canContinue = false;
+				}
+
 				hasValidatedBefore = true;
 				return canContinue;
 			}
+
+			$('#information-form').submit( function(event) {
+				event.preventDefault();
+
+				validateInformationForm();
+
+				$.ajax({
+					url: "http://localhost:8080/sendInformation",
+					type: "POST",
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"Accept": "application/pdf",
+						"Accept-Language": "en-US,en;q=0.8"
+					},
+					encoding: 'binary',
+					data: $( this ).serialize(),
+					success: function(response) {
+						var blob = new Blob([response]);
+						var link = document.createElement('a');
+						link.href = window.URL.createObjectURL(blob);
+						link.download = "label.pdf";
+						link.click();
+						return true;
+					}
+				});
+
+			});
+
 		</script>
 		<script language="javascript">	
 			var c_a = new Array("Canada", "United States");
@@ -357,8 +390,8 @@
 				};
 			}
 
-			populateCountries("destination-country-code", "destination-prov-state", "service");
-			populateStatesHelper(1, "sender-prov-state");
+			populateCountries("delivery-spec[destination][address-details][country-code]", "delivery-spec[destination][address-details][prov-state]", "service");
+			populateStatesHelper(1, "delivery-spec[sender][address-details][prov-state]");
 		</script>
 	</body>
 </html>
