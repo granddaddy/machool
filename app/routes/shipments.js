@@ -13,8 +13,7 @@ router.get('/', (req, res, next) => {
 
 });
 
-
-router.get('/sendInformation', (req, res) => {
+router.post('/sendInformation', (req, res) => {
 
 	req.body["@"] = {
 		"xmlns": "http://www.canadapost.ca/ws/ncshipment-v4"
@@ -77,7 +76,7 @@ router.get('/sendInformation', (req, res) => {
 				fs.writeFileSync("label.pdf", body, 'binary');
 
 				var stat = fs.statSync("label.pdf");
-
+ 
 				res.writeHead(200, {
 					"Content-Type": "application/pdf",
 					"Content-Length": stat.size,
@@ -88,11 +87,10 @@ router.get('/sendInformation', (req, res) => {
 
 				readStream.pipe(res);
 
+			});
 
-		// 	});
-
-		// });
-	// });
+		});
+	});
 
 	
 
