@@ -13,72 +13,86 @@ router.get('/', (req, res, next) => {
 
 });
 
-router.post('/sendInformation', (req, res) => {
 
-	req.body["@"] = {
-		"xmlns": "http://www.canadapost.ca/ws/ncshipment-v4"
-	}
+router.get('/sendInformation', (req, res) => {
 
-	if (req.body["delivery-spec"]["preferences"]) {
-		req.body["delivery-spec"]["preferences"]["show-packing-instructions"] = true;
-	} else {
-		req.body["delivery-spec"]["preferences"] = {
-			"show-packing-instructions": false
-		}
-	}
+	// req.body["@"] = {
+	// 	"xmlns": "http://www.canadapost.ca/ws/ncshipment-v4"
+	// }
 
-	var xml = js2xmlparser.parse("non-contract-shipment", req.body, {"declaration": {"encoding": "UTF-8"}})
+	// if (req.body["delivery-spec"]["preferences"]) {
+	// 	req.body["delivery-spec"]["preferences"]["show-packing-instructions"] = true;
+	// } else {
+	// 	req.body["delivery-spec"]["preferences"] = {
+	// 		"show-packing-instructions": false
+	// 	}
+	// }
 
-	request(
-	{
-		url: "https://ct.soa-gw.canadapost.ca/rs/0008545499/ncshipment",
-		method: "POST",
-		headers: {
-			"Accept": "application/vnd.cpc.ncshipment-v4+xml",
-			"Content-Type": "application/vnd.cpc.ncshipment-v4+xml",
-			"Authorization": "Basic NmY0OWVhOTAxNjE3NDFiMTpmNmU4MDY3ZWNlMzUyYWIwYWU3Mzg2",
-			"Accept-language": "en-CA"
-		},
-		body: xml
-	}, function(error, response, body) {
+	// var xml = js2xmlparser.parse("non-contract-shipment", req.body, {"declaration": {"encoding": "UTF-8"}})
 
-		if (error) {
-			res.status(400).send('Bad Request');
-		}
+	// request(
+	// {
+	// 	url: "https://ct.soa-gw.canadapost.ca/rs/0008545499/ncshipment",
+	// 	method: "POST",
+	// 	headers: {
+	// 		"Accept": "application/vnd.cpc.ncshipment-v4+xml",
+	// 		"Content-Type": "application/vnd.cpc.ncshipment-v4+xml",
+	// 		"Authorization": "Basic NmY0OWVhOTAxNjE3NDFiMTpmNmU4MDY3ZWNlMzUyYWIwYWU3Mzg2",
+	// 		"Accept-language": "en-CA"
+	// 	},
+	// 	body: xml
+	// }, function(error, response, body) {
 
-		var parser = new xml2js.Parser();
+	// 	if (error) {
+	// 		res.status(400).send('Bad Request');
+	// 	}
 
-		parser.parseString(body, function(err, result) {
-			var json = JSON.stringify(result);
-			json = JSON.parse(json);
+	// 	var parser = new xml2js.Parser();
 
-			var links = json["non-contract-shipment-info"]["links"][0]["link"]
+	// 	parser.parseString(body, function(err, result) {
+	// 		var json = JSON.stringify(result);
+	// 		json = JSON.parse(json);
 
-			var obj = _.find(links, function(el) {
-				return _.get(el, '$.rel') === 'label';
-			});
+	// 		var links = json["non-contract-shipment-info"]["links"][0]["link"]
 
-			var url = _.get(obj, '$.href');
-			console.log(url);
+	// 		var obj = _.find(links, function(el) {
+	// 			return _.get(el, '$.rel') === 'label';
+	// 		});
 
-			request(
-			{
-				url: url,
-				method: "GET",
-				headers: {
-					"Accept": "application/pdf",
-					"Authorization": "Basic NmY0OWVhOTAxNjE3NDFiMTpmNmU4MDY3ZWNlMzUyYWIwYWU3Mzg2",
-					"Accept-language": "en-CA"
-				},
-				encoding: 'binary'
-			}, function (error, response, body) {
+	// 		var url = _.get(obj, '$.href');
+	// 		console.log(url);
 
-				fs.writeFileSync("label.pdf", body, 'binary');
+	// 		request(
+	// 		{
+	// 			url: url,
+	// 			method: "GET",
+	// 			headers: {
+	// 				"Accept": "application/pdf",
+	// 				"Authorization": "Basic NmY0OWVhOTAxNjE3NDFiMTpmNmU4MDY3ZWNlMzUyYWIwYWU3Mzg2",
+	// 				"Accept-language": "en-CA"
+	// 			},
+	// 			encoding: 'binary'
+	// 		}, function (error, response, body) {
 
-			});
+	// 			fs.writeFileSync("label.pdf", body, 'binary');
 
-		});
-	});
+				var stat = fs.statSync("label.pdf");
+
+				res.writeHead(200, {
+					"Content-Type": "application/pdf",
+					"Content-Length": stat.size,
+					"Content-Disposition": "attachment; filename='label.pdf'"
+				});
+
+				var readStream = fs.createReadStream("label.pdf");
+
+				readStream.pipe(res);
+
+
+		// 	});
+
+		// });
+	// });
 
 	
 
